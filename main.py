@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 def detectarmanchas_oleo(imagem_caminho):
     # Carrega a imagem
@@ -23,12 +24,18 @@ def detectarmanchas_oleo(imagem_caminho):
     # Desenhar contornos sobre a imagem original
     imagem_contornos = imagem_redimensionada.copy()
     cv2.drawContours(imagem_contornos, contornos, -1, (0, 255, 0), 2)
+    laplaciano = cv2.Laplacian(imagem_cinza, cv2.CV_64F)
+
+# Converter a escala para positiva
+    laplaciano = np.uint8(np.absolute(laplaciano))
+
 
     # Mostrar as imagens (opcional, se você estiver rodando localmente)
     cv2.imshow('Imagem Original', imagem_redimensionada)
     cv2.imshow('Manchas Detectadas', imagem_contornos)
+    cv2.imshow("sdf", bordas)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
     return imagem_contornos
-imagem_resultado = detectarmanchas_oleo(r"E:\Code\ArquivosDesenvolvidos\mancha\teste1.jpg")
+imagem_resultado = detectarmanchas_oleo(r"C:\Users\gustavo\Downloads\img4.jpeg")
