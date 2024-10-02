@@ -63,17 +63,17 @@ def prewitt(image):
 
 def tratamento_imagem():
     # Solicitar o caminho da imagem ao usuário
-    drt = input("Caminho da imagem: ")
+    drt = "2.webp"
     imagem = cv2.imread(drt)
 
     # Redimensionar a imagem para uma visualização mais prática
-    img_resize = cv2.resize(imagem, (1000, 600))
+    img_resize = cv2.resize(imagem, (400, 400))
 
     # Converter para escala de cinza
     img_cinza = cv2.cvtColor(img_resize, cv2.COLOR_BGR2GRAY)
 
     # Aplicar desfoque (filtro blur)
-    blur = cv2.blur(img_cinza, (5, 5))
+    blur = cv2.blur(img_resize, (5, 5))
 
     return imagem, img_resize, img_cinza, blur
 
@@ -82,8 +82,18 @@ if __name__ == "__main__":
     # Processar a imagem
     imagem, img_resize, img_cinza, blur = tratamento_imagem()
 
+    hsv = cv2.cvtColor(img_resize, cv2.COLOR_BGR2HSV)
+    blur1 = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
+    hsv2 = cv2.cvtColor(img_resize, cv2.COLOR_BGR2HSV_FULL)
+    
+    cv2.imshow('hsv', hsv)
+    cv2.imshow('hsv2', hsv2)
+    cv2.imshow('blur', blur1)
+
+
+
     # Aplicar Sobel
-    sobel_result = sobel(img_cinza)
+    '''sobel_result = sobel(img_cinza)
     cv2.imshow('Sobel', sobel_result)
 
     # Aplicar Laplaciano
@@ -97,7 +107,7 @@ if __name__ == "__main__":
     # Detectar contornos
     contornos_result = contornos(img_resize)
     cv2.imshow('Contornos', contornos_result)
-
+'''
     # Aguardar a tecla de encerramento
     cv2.waitKey(0)
     cv2.destroyAllWindows()
